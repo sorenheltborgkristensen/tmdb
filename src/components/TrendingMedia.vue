@@ -1,5 +1,6 @@
 <template>
   <base-media-slider>
+    <!-- Media card -->
     <section class="media-slider-card" v-for="(trend, index) in trending" :key="index">
       <!-- Filmplakat -->
       <img :src="'https://image.tmdb.org/t/p/w220_and_h330_face/' + trend.poster_path" />
