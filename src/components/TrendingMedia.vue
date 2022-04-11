@@ -1,11 +1,19 @@
 <template>
   <base-media-slider>
     <section class="media-slider-card" v-for="(trend, index) in trending" :key="index">
+      <!-- Filmplakat -->
       <img :src="'https://image.tmdb.org/t/p/w220_and_h330_face/' + trend.poster_path" />
       <div>
+        <!-- Bedømmelse -->
         <p class="average-score">{{ trend.vote_average }}</p>
+
+        <!-- Titel -->
         <h2>{{ trend.title }}</h2>
+        <h2 v-if="trend.media_type == 'tv'">{{ trend.name }}</h2>
+
+        <!-- Udgivelsesdato -->
         <p class="release-date">{{ trend.release_date }}</p>
+        <p v-if="trend.media_type == 'tv'" class="release-date">{{ trend.first_air_date }}</p>
       </div>
     </section>
   </base-media-slider>
@@ -29,10 +37,13 @@ export default {
 
   methods: {
     async getTrendingMedia() {
-      const url = `${"https://api.themoviedb.org/3/trending/all/day?api_key=" + import.meta.env.VITE_API_KEY}`;
-      const data = await (await fetch(url)).json();
-      console.log(data);
-      this.trending = data.results;
+      try {
+        const url = `${"https://api.themoviedb.org/3/trending/all/day?api_key=" + import.meta.env.VITE_API_KEY}`;
+        const data = await (await fetch(url)).json();
+        this.trending = data.results;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
